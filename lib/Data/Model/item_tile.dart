@@ -1,12 +1,9 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 
 class ItemTile extends StatelessWidget {
   final String name;
-  final int amount;
 
-  const ItemTile({required this.name, required this.amount, super.key});
+  const ItemTile({required this.name, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +18,6 @@ class ItemTile extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(name),
-              const SizedBox(height: 2),
-              Text(amount.toString()),
               const SizedBox(height: 2),
             ],
           ),

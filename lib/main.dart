@@ -1,7 +1,9 @@
+import 'package:assignment_3/Bloc/Shop/bloc/shop_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:assignment_3/Presentation/Pages/Home.dart';
 import 'package:assignment_3/Presentation/Pages/History.dart';
 import 'package:assignment_3/Presentation/Pages/Profile.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,7 +21,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MainPage(),
+      home: BlocProvider(
+        create: (context) => ShopBloc(),
+        child: const MainPage(),
+      ),
       routes: <String, WidgetBuilder>{
         '/home': (BuildContext context) => const Home(),
         '/history': (BuildContext context) => const History(),
