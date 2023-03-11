@@ -1,3 +1,4 @@
+import 'package:assignment_3/Bloc/Cart/bloc/cart_bloc.dart';
 import 'package:assignment_3/Bloc/Shop/bloc/shop_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:assignment_3/Presentation/Pages/Home.dart';
@@ -21,15 +22,17 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: BlocProvider(
-        create: (context) => ShopBloc(),
-        child: const MainPage(),
-      ),
-      routes: <String, WidgetBuilder>{
-        '/home': (BuildContext context) => const Home(),
-        '/history': (BuildContext context) => const History(),
-        '/profile': (BuildContext context) => const Profile(),
-      },
+      home: BlocProvider<ShopBloc>(
+          create: (context) => ShopBloc(),
+          child: BlocProvider<CartBloc>(
+            create: (context) => CartBloc(),
+            child: const MainPage(),
+          )),
+      // routes: <String, WidgetBuilder>{
+      //   '/home': (BuildContext context) => const Home(),
+      //   '/history': (BuildContext context) => const History(),
+      //   '/profile': (BuildContext context) => const Profile(),
+      // },
     );
   }
 }
@@ -62,7 +65,7 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "Item",
+          "Shopping Spree",
           style: TextStyle(
             fontSize: 25,
             fontWeight: FontWeight.bold,

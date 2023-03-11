@@ -1,25 +1,28 @@
 class Item {
-  int id;
-  String name;
+  String image;
+  String foodTitle;
+  num foodPrice;
 
   Item({
-    required this.id,
-    required this.name,
+    required this.image,
+    required this.foodTitle,
+    required this.foodPrice,
   });
 
   factory Item.fromJson(Map<String, dynamic> json) {
     return Item(
-      id: json['participants'],
-      name: json.containsKey('activity') ? json['activity'] : '',
+      image: json['image'],
+      foodTitle: json['title'],
+      foodPrice: json['price'],
     );
   }
 
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> json = {};
+  static List itemList(List item) {
+    List items = [];
+    for (var i = 0; i < item.length; i++) {
+      items.add(Item.fromJson(item[i]));
+    }
 
-    json['id'] = id;
-    json['name'] = name;
-
-    return json;
+    return items;
   }
 }

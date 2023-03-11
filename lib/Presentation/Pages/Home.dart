@@ -16,17 +16,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int index = 0;
 
-  final List<Item> _items = [
-    Item(id: 1, name: 'Sugar'),
-    Item(id: 2, name: 'Salt'),
-    Item(id: 3, name: 'Apple'),
-    Item(id: 3, name: 'Orange'),
-    Item(id: 3, name: 'Meat'),
-    Item(id: 3, name: 'Vegetables'),
-    Item(id: 3, name: 'Cloth'),
-    Item(id: 3, name: 'Electronics'),
-  ];
-
   @override
   State<Home> createState() => _HomeState();
   @override
@@ -52,10 +41,13 @@ class _HomeState extends State<Home> {
             return Text(state.message);
           } else if (state is ShopSuccessState) {
             return ListView.builder(
-              itemCount: _items.length,
+              itemCount: state.item.length,
               itemBuilder: (context, index) {
+                final Item itemVal = state.item[index];
                 return ItemTile(
-                  name: _items[index].name,
+                  image: itemVal.image,
+                  foodTitle: itemVal.foodTitle,
+                  foodPrice: itemVal.foodPrice,
                 );
               },
             );

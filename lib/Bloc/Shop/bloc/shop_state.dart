@@ -13,7 +13,7 @@ class ShopLoadingState extends ShopState {
 }
 
 class ShopSuccessState extends ShopState {
-  Item item;
+  final List item;
 
   ShopSuccessState(
     this.item,
