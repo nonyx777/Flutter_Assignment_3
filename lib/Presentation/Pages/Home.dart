@@ -29,11 +29,16 @@ class _HomeState extends State<Home> {
               width: MediaQuery.of(context).size.width,
               alignment: Alignment.center,
               child: ElevatedButton(
-                  onPressed: () {
-                    BlocProvider.of<ShopBloc>(context)
-                        .add(GetDataButtonPressed());
-                  },
-                  child: const Text('Get Item')),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blueGrey,
+                  elevation: 20,
+                ),
+                onPressed: () {
+                  BlocProvider.of<ShopBloc>(context)
+                      .add(GetDataButtonPressed());
+                },
+                child: const Text('Get Available Items'),
+              ),
             );
           } else if (state is ShopLoadingState) {
             return const Center(child: CircularProgressIndicator());

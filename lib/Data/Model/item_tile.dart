@@ -17,12 +17,14 @@ class ItemTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const String dollar_sign = "\$";
     return BlocBuilder<CartBloc, CartState>(
       builder: (context, state) {
         return Container(
+          color: Color.fromARGB(255, 252, 250, 250),
           height: 80,
           width: MediaQuery.of(context).size.width,
-          // padding: const EdgeInsets.all(0),
+          // color: Colors.white,
           child: Container(
             height: 380,
             child: Row(
@@ -30,7 +32,9 @@ class ItemTile extends StatelessWidget {
               children: [
                 Container(
                   decoration: BoxDecoration(
-                      image: DecorationImage(image: NetworkImage(image))),
+                    image: DecorationImage(image: NetworkImage(image)),
+                    color: Colors.white,
+                  ),
                   height: MediaQuery.of(context).size.height * .1,
                   width: MediaQuery.of(context).size.width * .3,
                   margin:
@@ -38,13 +42,14 @@ class ItemTile extends StatelessWidget {
                 ),
                 Container(
                   height: 50,
+                  color: Colors.white10,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Flexible(
                           child: Container(width: 200, child: Text(foodTitle))),
-                      Text(foodPrice.toString()),
+                      Text(dollar_sign + foodPrice.toString()),
                     ],
                   ),
                 ),

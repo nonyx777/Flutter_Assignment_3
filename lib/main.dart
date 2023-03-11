@@ -72,7 +72,7 @@ class _MainPageState extends State<MainPage> {
           ),
         ),
         centerTitle: true,
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: Colors.blueGrey,
       ),
       body: SizedBox.expand(
         child: child,
@@ -80,8 +80,8 @@ class _MainPageState extends State<MainPage> {
       bottomNavigationBar: BottomNavigationBar(
         onTap: (newIndex) => setState(() => index = newIndex),
         currentIndex: index,
-        selectedItemColor: Colors.blueAccent,
-        unselectedItemColor: Colors.black,
+        selectedItemColor: Colors.black,
+        unselectedItemColor: Colors.blueGrey,
         selectedFontSize: 18,
         unselectedFontSize: 13,
         iconSize: 30,
