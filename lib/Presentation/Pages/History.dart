@@ -17,6 +17,9 @@ class _HistoryState extends State<History> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
+
     return Scaffold(
       body: BlocBuilder<CartBloc, CartState>(
         builder: (context, state) {
@@ -32,17 +35,52 @@ class _HistoryState extends State<History> {
           } else if (state is CartFailState) {
             return Text(state.message);
           } else if (state is CartSuccessState) {
-            return ListView.builder(
-              itemCount: state.item.length,
-              itemBuilder: (context, index) {
-                final Item itemVal = state.item[index];
-                return ItemTile(
-                  image: itemVal.image,
-                  foodTitle: itemVal.foodTitle,
-                  foodPrice: itemVal.foodPrice,
-                  cartButtonPressed: true,
-                );
-              },
+            return Stack(
+              children: [
+                ListView.builder(
+                  itemCount: state.item.length,
+                  itemBuilder: (context, index) {
+                    final Item itemVal = state.item[index];
+                    return ItemTile(
+                      image: itemVal.image,
+                      foodTitle: itemVal.foodTitle,
+                      foodPrice: itemVal.foodPrice,
+                      cartButtonPressed: true,
+                    );
+                  },
+                ),
+                Positioned(
+                  top: height * .8 - (width * .2),
+                  left: width * .4,
+                  child: Material(
+                    elevation: 20,
+                    borderRadius: BorderRadius.circular(45),
+                    shadowColor: Colors.black,
+                    child: Container(
+                      height: width * .2,
+                      width: width * .2,
+                      decoration: const BoxDecoration(
+                        color: Color.fromARGB(255, 123, 165, 185),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Center(
+                        child: SizedBox(
+                          width: width * .2,
+                          child: Center(
+                            child: Text(
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              '\$' + totalPrice.toString(),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             );
           }
           return Container();

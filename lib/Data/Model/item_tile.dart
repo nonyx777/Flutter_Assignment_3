@@ -22,6 +22,7 @@ class ItemTile extends StatelessWidget {
     const String dollar_sign = "\$";
     int index_to_remove = 0;
     bool item_to_remove_found = false;
+    double total_price = 0;
     return BlocBuilder<CartBloc, CartState>(
       builder: (context, state) {
         return Container(
@@ -64,6 +65,7 @@ class ItemTile extends StatelessWidget {
                           foodTitle: foodTitle,
                           foodPrice: foodPrice);
                       addedItems.add(item);
+                      calculatePrice();
                       BlocProvider.of<CartBloc>(context)
                           .add(GetDataButtonPressed());
                     } else {
@@ -83,6 +85,7 @@ class ItemTile extends StatelessWidget {
                       }
                       item_to_remove_found = false;
                       addedItems.removeAt(index_to_remove);
+                      calculatePrice();
                       BlocProvider.of<CartBloc>(context)
                           .add(RemoveDataButtonPressed());
                     }
@@ -97,5 +100,17 @@ class ItemTile extends StatelessWidget {
         );
       },
     );
+  }
+}
+
+//calculate the total price
+void calculatePrice() {
+  totalPrice = 0;
+  for (int i = 0; i < addedItems.length; i++) {
+    totalPrice += addedItems[i].foodPrice;
+    //fix the precision to 2 decimal numbers
+    String stringTotalPrice = totalPrice.toStringAsFixed(2);
+    //cast back to double
+    totalPrice = double.parse(stringTotalPrice);
   }
 }

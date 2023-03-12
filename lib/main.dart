@@ -28,11 +28,6 @@ class MyApp extends StatelessWidget {
             create: (context) => CartBloc(),
             child: const MainPage(),
           )),
-      // routes: <String, WidgetBuilder>{
-      //   '/home': (BuildContext context) => const Home(),
-      //   '/history': (BuildContext context) => const History(),
-      //   '/profile': (BuildContext context) => const Profile(),
-      // },
     );
   }
 }
