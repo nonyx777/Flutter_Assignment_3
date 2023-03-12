@@ -26,7 +26,7 @@ class ItemTile extends StatelessWidget {
     return BlocBuilder<CartBloc, CartState>(
       builder: (context, state) {
         return Container(
-          color: Color.fromARGB(255, 252, 250, 250),
+          color: Color.fromARGB(255, 253, 247, 247),
           height: 80,
           width: MediaQuery.of(context).size.width,
           child: Container(
