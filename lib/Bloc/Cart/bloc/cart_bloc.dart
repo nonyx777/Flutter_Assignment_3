@@ -13,5 +13,11 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       List added_items = addedItems;
       emit(CartSuccessState(added_items));
     });
+
+    on<RemoveDataButtonPressed>((event, emit) async {
+      emit(CartLoadingState());
+      List items = addedItems;
+      emit(CartSuccessState(items));
+    });
   }
 }

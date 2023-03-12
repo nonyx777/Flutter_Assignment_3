@@ -40,6 +40,7 @@ class _HistoryState extends State<History> {
                   image: itemVal.image,
                   foodTitle: itemVal.foodTitle,
                   foodPrice: itemVal.foodPrice,
+                  cartButtonPressed: true,
                 );
               },
             );

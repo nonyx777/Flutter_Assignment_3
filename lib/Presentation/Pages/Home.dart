@@ -53,6 +53,7 @@ class _HomeState extends State<Home> {
                   image: itemVal.image,
                   foodTitle: itemVal.foodTitle,
                   foodPrice: itemVal.foodPrice,
+                  cartButtonPressed: false,
                 );
               },
             );

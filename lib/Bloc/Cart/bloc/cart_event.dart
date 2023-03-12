@@ -6,3 +6,8 @@ class GetDataButtonPressed extends CartEvent {
   @override
   List<Object> get props => [];
 }
+
+class RemoveDataButtonPressed extends CartEvent {
+  @override
+  List<Object> get props => [];
+}

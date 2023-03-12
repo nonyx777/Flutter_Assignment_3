@@ -8,23 +8,26 @@ class ItemTile extends StatelessWidget {
   final String image;
   final String foodTitle;
   final num foodPrice;
+  final bool cartButtonPressed;
 
   const ItemTile(
       {required this.image,
       required this.foodTitle,
       required this.foodPrice,
+      required this.cartButtonPressed,
       super.key});
 
   @override
   Widget build(BuildContext context) {
     const String dollar_sign = "\$";
+    int index_to_remove = 0;
+    bool item_to_remove_found = false;
     return BlocBuilder<CartBloc, CartState>(
       builder: (context, state) {
         return Container(
           color: Color.fromARGB(255, 252, 250, 250),
           height: 80,
           width: MediaQuery.of(context).size.width,
-          // color: Colors.white,
           child: Container(
             height: 380,
             child: Row(
@@ -54,7 +57,8 @@ class ItemTile extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                    onPressed: () {
+                  onPressed: () {
+                    if (!cartButtonPressed) {
                       Item item = Item(
                           image: image,
                           foodTitle: foodTitle,
@@ -62,8 +66,31 @@ class ItemTile extends StatelessWidget {
                       addedItems.add(item);
                       BlocProvider.of<CartBloc>(context)
                           .add(GetDataButtonPressed());
-                    },
-                    icon: const Icon(Icons.shopping_cart)),
+                    } else {
+                      Item item = Item(
+                        image: image,
+                        foodTitle: foodTitle,
+                        foodPrice: foodPrice,
+                      );
+                      for (int i = 0;
+                          i < addedItems.length &&
+                              item_to_remove_found == false;
+                          i++) {
+                        if (item.foodTitle == addedItems[i].foodTitle) {
+                          index_to_remove = i;
+                          item_to_remove_found = true;
+                        }
+                      }
+                      item_to_remove_found = false;
+                      addedItems.removeAt(index_to_remove);
+                      BlocProvider.of<CartBloc>(context)
+                          .add(RemoveDataButtonPressed());
+                    }
+                  },
+                  icon: cartButtonPressed
+                      ? const Icon(Icons.remove_shopping_cart)
+                      : const Icon(Icons.shopping_cart),
+                ),
               ],
             ),
           ),
