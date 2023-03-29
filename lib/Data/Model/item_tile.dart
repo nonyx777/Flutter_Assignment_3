@@ -1,24 +1,28 @@
 import 'package:assignment_3/Bloc/Cart/bloc/cart_bloc.dart';
 import 'package:assignment_3/Data/Model/data.dart';
+import 'package:assignment_3/Repository/service.dart';
 import 'package:assignment_3/service/addedItems.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ItemTile extends StatelessWidget {
+  final int id;
   final String image;
-  final String foodTitle;
-  final num foodPrice;
+  final String title;
+  final num price;
   final bool cartButtonPressed;
 
   const ItemTile(
-      {required this.image,
-      required this.foodTitle,
-      required this.foodPrice,
+      {required this.id,
+      required this.image,
+      required this.title,
+      required this.price,
       required this.cartButtonPressed,
       super.key});
 
   @override
   Widget build(BuildContext context) {
+    final _service = Service();
     const String dollar_sign = "\$";
     int index_to_remove = 0;
     bool item_to_remove_found = false;
@@ -52,39 +56,45 @@ class ItemTile extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Flexible(
-                          child: Container(width: 200, child: Text(foodTitle))),
-                      Text(dollar_sign + foodPrice.toString()),
+                          child: Container(width: 200, child: Text(title))),
+                      Text(dollar_sign + price.toString()),
                     ],
                   ),
                 ),
                 IconButton(
                   onPressed: () {
                     if (!cartButtonPressed) {
+                      //Converting it into an item object
                       Item item = Item(
-                          image: image,
-                          foodTitle: foodTitle,
-                          foodPrice: foodPrice);
-                      addedItems.add(item);
-                      calculatePrice();
+                          id: id, image: image, title: title, price: price);
+                      //saving to database
+                      _service.saveItem(item);
+                      // addedItems.add(item);
+
+                      calculatePrice(); //self explanatory
                       BlocProvider.of<CartBloc>(context)
                           .add(GetDataButtonPressed());
                     } else {
                       Item item = Item(
+                        id: id,
                         image: image,
-                        foodTitle: foodTitle,
-                        foodPrice: foodPrice,
+                        title: title,
+                        price: price,
                       );
-                      for (int i = 0;
-                          i < addedItems.length &&
-                              item_to_remove_found == false;
-                          i++) {
-                        if (item.foodTitle == addedItems[i].foodTitle) {
-                          index_to_remove = i;
-                          item_to_remove_found = true;
-                        }
-                      }
-                      item_to_remove_found = false;
-                      addedItems.removeAt(index_to_remove);
+                      // for (int i = 0;
+                      //     i < addedItems.length &&
+                      //         item_to_remove_found == false;
+                      //     i++) {
+                      //   if (item.id == addedItems[i].id) {
+                      //     index_to_remove = i;
+                      //     item_to_remove_found = true;
+                      //   }
+                      // }
+                      // item_to_remove_found = false;
+                      // addedItems.removeAt(
+                      //     index_to_remove); //removes it from the list of the cart
+                      _service.deleteItem(
+                          item.id); //deletes the item from the database
                       calculatePrice();
                       BlocProvider.of<CartBloc>(context)
                           .add(RemoveDataButtonPressed());
@@ -107,7 +117,7 @@ class ItemTile extends StatelessWidget {
 void calculatePrice() {
   totalPrice = 0;
   for (int i = 0; i < addedItems.length; i++) {
-    totalPrice += addedItems[i].foodPrice;
+    totalPrice += addedItems[i].price;
     //fix the precision to 2 decimal numbers
     String stringTotalPrice = totalPrice.toStringAsFixed(2);
     //cast back to double
