@@ -22,11 +22,8 @@ class ItemTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _service = Service();
+    // final _service = Service();
     const String dollar_sign = "\$";
-    int index_to_remove = 0;
-    bool item_to_remove_found = false;
-    double total_price = 0;
     return BlocBuilder<CartBloc, CartState>(
       builder: (context, state) {
         return Container(
@@ -63,39 +60,19 @@ class ItemTile extends StatelessWidget {
                 ),
                 IconButton(
                   onPressed: () {
-                    if (!cartButtonPressed) {
-                      //Converting it into an item object
-                      Item item = Item(
-                          id: id, image: image, title: title, price: price);
-                      //saving to database
-                      _service.saveItem(item);
-                      // addedItems.add(item);
+                    //Converting it into an item object
+                    Item item =
+                        Item(id: id, image: image, title: title, price: price);
+                    //given to a global object
+                    item_ = item;
 
-                      calculatePrice(); //self explanatory
+                    //checking if it's already added to cart or not
+                    if (!cartButtonPressed) {
+                      //saving to database
                       BlocProvider.of<CartBloc>(context)
                           .add(GetDataButtonPressed());
                     } else {
-                      Item item = Item(
-                        id: id,
-                        image: image,
-                        title: title,
-                        price: price,
-                      );
-                      // for (int i = 0;
-                      //     i < addedItems.length &&
-                      //         item_to_remove_found == false;
-                      //     i++) {
-                      //   if (item.id == addedItems[i].id) {
-                      //     index_to_remove = i;
-                      //     item_to_remove_found = true;
-                      //   }
-                      // }
-                      // item_to_remove_found = false;
-                      // addedItems.removeAt(
-                      //     index_to_remove); //removes it from the list of the cart
-                      _service.deleteItem(
-                          item.id); //deletes the item from the database
-                      calculatePrice();
+                      //deletes the item from the database
                       BlocProvider.of<CartBloc>(context)
                           .add(RemoveDataButtonPressed());
                     }
@@ -110,17 +87,5 @@ class ItemTile extends StatelessWidget {
         );
       },
     );
-  }
-}
-
-//calculate the total price
-void calculatePrice() {
-  totalPrice = 0;
-  for (int i = 0; i < addedItems.length; i++) {
-    totalPrice += addedItems[i].price;
-    //fix the precision to 2 decimal numbers
-    String stringTotalPrice = totalPrice.toStringAsFixed(2);
-    //cast back to double
-    totalPrice = double.parse(stringTotalPrice);
   }
 }
